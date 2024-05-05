@@ -21,12 +21,13 @@ plot_data <- function(data, subset_data, product, product_name, years_to_plot){
   product_name (str): description/name of the variable
   years_to_plot (str): the years for which the data needs to be plotted for example 2023|2024
   "
+  pdf(paste0("Rplots voor CPI ", product_name, ".pdf"))
   data <- filter(data, Bestedingscategorieen == product)
   data <- data[grep(years_to_plot, data$Perioden), ]
   data_cpi <- select(data, Perioden, CPI_1)
   
   data_cpi_year <- data_cpi[grepl("JJ", data_cpi$Perioden), ]
-  plot_title = paste("CPI per jaar voor ", product_name)
+  plot_title = paste0("CPI per jaar voor ", product_name)
   plot_cpi_year <- ggplot(data_cpi_year, aes(x = Perioden, y = CPI_1)) +
     geom_point() +
     labs(x = "Perioden", y = "CPI", title = plot_title) +
@@ -35,7 +36,7 @@ plot_data <- function(data, subset_data, product, product_name, years_to_plot){
   grid.arrange(plot_cpi_year)
   
   data_cpi_month <- data_cpi[grepl("MM", data_cpi$Perioden), ]
-  plot_title = paste("CPI per maand voor ", product_name)
+  plot_title = paste0("CPI per maand voor ", product_name)
   plot_cpi_month <- ggplot(data_cpi_month, aes(x = Perioden, y = CPI_1)) +
     geom_point() +
     labs(x = "Perioden", y = "CPI", title = plot_title) +
@@ -46,7 +47,7 @@ plot_data <- function(data, subset_data, product, product_name, years_to_plot){
   subset_data <- filter(subset_data, Bestedingscategorieen == product)
   subset_data <- subset_data[grep(years_to_plot, subset_data$Perioden), ]
   subset_data_cpi <- select(subset_data, Perioden, CPI_1)
-  plot_title = paste("CPI per kwartaal voor ", product_name)
+  plot_title = paste0("CPI per kwartaal voor ", product_name)
   plot_cpi_quarterly <- ggplot(subset_data_cpi, aes(x = Perioden, y = CPI_1)) +
     geom_point() +
     labs(x = "Perioden", y = "CPI", title = plot_title) +
@@ -56,7 +57,7 @@ plot_data <- function(data, subset_data, product, product_name, years_to_plot){
   
   
   subset_data_quarterlymutations <- select(subset_data, Perioden, Kwartaalmutatie)
-  plot_title = paste("Kwaartaalmutaties voor ", product_name)
+  plot_title = paste0("Kwaartaalmutaties voor ", product_name)
   plot_quarterlymutations <- ggplot(subset_data_quarterlymutations, aes(x = Perioden, y = Kwartaalmutatie)) +
     geom_point() +
     labs(x = "Perioden", y = "Kwartaalmutatie", title = plot_title) +
@@ -64,4 +65,5 @@ plot_data <- function(data, subset_data, product, product_name, years_to_plot){
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
   grid.arrange(plot_quarterlymutations)
   grid.arrange(plot_cpi_quarterly, plot_quarterlymutations, nrow = 1)
+  dev.off()
 }

@@ -32,4 +32,4 @@ dbWriteTable(con, "83131NED", data_quarterlymutations, overwrite = TRUE)
 
 # plot the data - change codes and name when needed
 plot_data(data, data_quarterlymutations, "CPI011600", "Fruit", years_to_plot)
-plot_data(data, data_quarterlymutations, "CPI011700", "Groente", years_to_plot)
+plot_data(data, data_quarterlymutations, "CPI011700", "Groenten", years_to_plot)
